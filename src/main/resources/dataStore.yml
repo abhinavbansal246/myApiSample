@@ -1,0 +1,90 @@
+openapi: 3.0.0
+info:
+  title: Bookstore API
+  description: A simple API for managing books in a bookstore
+  version: 1.0.0
+servers:
+  - url: https://api.example.com/v1
+paths:
+  /books:
+    get:
+      summary: Get all books
+      operationId: getBooks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      summary: Add a new book
+      operationId: addBook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+  /books/{bookId}:
+    parameters:
+      - name: bookId
+        in: path
+        required: true
+        description: The ID of the book to retrieve or update
+        schema:
+          type: integer
+    get:
+      summary: Get a book by ID
+      operationId: getBookById
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+    put:
+      summary: Update a book by ID
+      operationId: updateBookById
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+    delete:
+      summary: Delete a book by ID
+      operationId: deleteBookById
+      responses:
+        '204':
+          description: No content
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
+        year:
+          type: integer
