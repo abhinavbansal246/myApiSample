@@ -1,4 +1,4 @@
-package org.abhi;
+package org.abhi.openapi;
 
 import com.abhi.openapi.api.BooksApiDelegate;
 import com.abhi.openapi.model.Book;
