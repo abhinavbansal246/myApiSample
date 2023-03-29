@@ -1,15 +1,13 @@
 openapi: 3.0.0
 info:
-  title: Bookstore API
-  description: A simple API for managing books in a bookstore
+  title: User API
   version: 1.0.0
 servers:
-  - url: https://api.example.com/v1
+  - url: https://example.com/api
 paths:
-  /books:
+  /users:
     get:
-      summary: Get all books
-      operationId: getBooks
+      summary: Retrieve a list of users
       responses:
         '200':
           description: OK
@@ -18,73 +16,141 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Book'
+                  $ref: '#/components/schemas/User'
     post:
-      summary: Add a new book
-      operationId: addBook
+      summary: Create a new user
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Book'
+              $ref: '#/components/schemas/NewUser'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Book'
-  /books/{bookId}:
-    parameters:
-      - name: bookId
-        in: path
-        required: true
-        description: The ID of the book to retrieve or update
-        schema:
-          type: integer
-    get:
-      summary: Get a book by ID
-      operationId: getBookById
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book'
+                $ref: '#/components/schemas/User'
     put:
-      summary: Update a book by ID
-      operationId: updateBookById
+      summary: Update an existing user
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Book'
+              $ref: '#/components/schemas/UpdateUser'
+      responses:
+        '204':
+          description: No Content
+    delete:
+      summary: Delete an existing user
+      responses:
+        '204':
+          description: No Content
+
+  /users/{userkey}:
+    parameters:
+      - name: userkey
+        in: path
+        description: User key to update or delete
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Retrieve a single user by userkey
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Book'
-    delete:
-      summary: Delete a book by ID
-      operationId: deleteBookById
-      responses:
-        '204':
-          description: No content
+                $ref: '#/components/schemas/User'
+      parameters:
+        - name: userkey
+          in: path
+          description: User key to retrieve
+          required: true
+          schema:
+            type: integer
+
 components:
   schemas:
-    Book:
+    User:
       type: object
       properties:
-        id:
+        userkey:
           type: integer
+        name:
+          type: string
+        employee_id:
+          type: string
         title:
           type: string
-        author:
+        employment_type:
           type: string
-        year:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        manager_email:
+          type: string
+        employee_class:
+          type: string
+        status:
+          type: string
+        create_date:
+          type: string
+          format: date-time
+        start_date:
+          type: string
+          format: date-time
+        end_date:
+          type: string
+          format: date-time
+        update_date:
+          type: string
+          format: date-time
+        department:
+          type: string
+        location:
+          type: string
+        cost_center:
+          type: string
+        rehire:
+          type: boolean
+        rehire_date:
+          type: string
+          format: date-time
+        team_key:
           type: integer
+        user_type:
+          type: string
+
+    NewUser:
+      type: object
+      required:
+        - name
+        - employee_id
+
+    UpdateUser:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: The user's updated first name.
+        lastName:
+          type: string
+          description: The user's updated last name.
+        email:
+          type: string
+          format: email
+          description: The user's updated email address.
+        password:
+          type: string
+          format: password
+          description: The user's updated password.
+      required:
+        - email
